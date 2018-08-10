@@ -37,12 +37,9 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.Scanner;
 
 
@@ -166,27 +163,24 @@ public class MainActivity extends AppCompatActivity {
 
     private void addCurrentQuestionIdToCache(){
 
+        final ArrayList<String> questionIdList = readQuestionsIdCache();
+        questionIdList.add(game.getCurrentQuestionID());
 
-            final ArrayList<String> questionIdList = readQuestionsIdCache();
-        System.out.println(" AddCurrentQuestionIDToCache method has index: " + game.getCurrentQuestionID());
-            questionIdList.add(game.getCurrentQuestionID());
-
-                Thread thread = new Thread(new Runnable() {
-                    public void run() {
-                        try {
-                            BufferedWriter writer = new BufferedWriter(new FileWriter(cacheFile));
-                            for (String q: questionIdList) {
-                                writer.write(q + " ");
-                            }
-                            writer.close();
-                        } catch (Exception e) {
-                            e.printStackTrace();
+        Thread thread = new Thread(new Runnable() {
+            public void run() {
+                try {
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(cacheFile));
+                    for (String q: questionIdList) {
+                        writer.write(q + " ");
                         }
-                    }
-                });
-
-                thread.start();
+                        writer.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                }
             }
+        });
+        thread.start();
+    }
 
     private ArrayList<String> readQuestionsIdCache(){
         try{
@@ -202,18 +196,13 @@ public class MainActivity extends AppCompatActivity {
             for(String questionID:listQuestionsID){
                 System.out.println(questionID + " ");
             }
-
             s.close();
             return listQuestionsID;
-
-
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
-
     }
-
 
     public void go(){
 

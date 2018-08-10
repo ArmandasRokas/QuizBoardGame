@@ -1,11 +1,7 @@
 package rokas.armandas.quizboardgame;
 
-import android.util.Log;
-
-
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Game {
@@ -31,14 +27,8 @@ public class Game {
         player4 = new Player();
         player5 = new Player();
         this.questions = questions;
-
-
-
-
-        // function to add all questions to questionList
-        // save the state of questions used. Cache storage og SharedPreferences
-        // when all questions is used, ask to is you would like to use same questions
     }
+
     public String getCurrentQuestionID(){
         return currentQuestionID;
     }
@@ -46,6 +36,7 @@ public class Game {
     public int getWhichPlayerHasTurn(){
         return whichPlayerHasTurn;
     }
+
     public int getNumberOfPlayer(){
         return numberOfPlayer;
     }
@@ -67,7 +58,6 @@ public class Game {
     }
 
     public String getQuestion(ArrayList<String> listOfUsedQuestionsID){
-
         // currentIndexListOfQuestion is used into while loop. In order to be sure that all indexes is checked every time.
         // So it is removing one by one and check if it is in Cache memory.
         // one disadventage of this algorithm that it spams WHILE loop, since it loops until it gets the right random number.
@@ -89,11 +79,8 @@ public class Game {
                return question;
             } else {
                currentIndexListOfQuestion.remove(currentQuestionID);
-                System.out.println("Removing: " + currentQuestionID);
             }
-
         }
-
         return null;
     }
 
