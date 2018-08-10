@@ -1,5 +1,12 @@
 // Create administrator window, to create new questions
 
+// Create feature, to Start questions from start, when no more question left + when no more question left do not allow
+// continue to play, unless player restart questions
+
+// Add feature, when someone scores 10 point, wins the game. + play again feature
+
+// Add feature to set players name
+
 
 package rokas.armandas.quizboardgame;
 
@@ -81,26 +88,28 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void newGame(int numberPlayer){
-        switch (numberPlayer){
-            case 2:
-                game = new Game(2,questions);
-                break;
-            case 3:
-                game = new Game(3,questions);
-                break;
-            case 4:
-                game = new Game(4,questions);
-                break;
-            case 5:
-                game = new Game(5,questions);
-                break;
-            default:
-                break;
+
+        if(questions != null){
+            switch (numberPlayer){
+                case 2:
+                    game = new Game(2,questions);
+                    break;
+                case 3:
+                    game = new Game(3,questions);
+                    break;
+                case 4:
+                    game = new Game(4,questions);
+                    break;
+                case 5:
+                    game = new Game(5,questions);
+                    break;
+                default:
+                    break;
+            }
+            showGame(game.getNumberOfPlayer());
+        } else {
+            lblWelcome.setText("Error. Check network connection");
         }
-
-
-
-        showGame(game.getNumberOfPlayer());
     }
 
     @Override
