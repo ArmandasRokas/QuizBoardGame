@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".Game"
+    tools:showIn="@layout/activity_game">
+
+    <TextView
+        android:id="@+id/lblPlayer5Point"
+        android:layout_width="224dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="24dp"
+        android:text="Player 5 has 0 points"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblPlayer4Point" />
+
+    <TextView
+        android:id="@+id/lblPlayer4Point"
+        android:layout_width="224dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="24dp"
+        android:text="Player 4 has 0 points"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblPlayer3Point" />
+
+    <TextView
+        android:id="@+id/lblPlayer2Point"
+        android:layout_width="224dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="24dp"
+        android:text="Player 2 has 0 points"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblPlayer1Point" />
+
+    <TextView
+        android:id="@+id/lblPlayer1Point"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Player 1 has 0 points"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/lblPlayer3Point"
+        android:layout_width="224dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="24dp"
+        android:text="Player 3 has 0 points"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblPlayer2Point" />
+
+    <Button
+        android:id="@+id/btnGo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="GO"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
