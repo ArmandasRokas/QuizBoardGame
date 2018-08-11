@@ -5,7 +5,7 @@
 
 // Add feature, when someone scores 10 point, wins the game. + play again feature
 
-// Add feature to set players name
+// Added feature to set players name
 
 
 package rokas.armandas.quizboardgame;
@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.amazonaws.mobile.client.AWSMobileClient;
@@ -33,6 +34,7 @@ import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapperCo
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBScanExpression;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.PaginatedScanList;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+import com.amazonaws.services.dynamodbv2.model.SourceTableDetails;
 
 
 import java.io.BufferedWriter;
@@ -54,6 +56,11 @@ public class MainActivity extends AppCompatActivity {
     private TextView lblPlayer5Point;
     private TextView lblQuestion;
     private TextView lblPlayerTurn;
+    private EditText txtPlayer1Name;
+    private EditText txtPlayer2Name;
+    private EditText txtPlayer3Name;
+    private EditText txtPlayer4Name;
+    private EditText txtPlayer5Name;
     private Button btn2Player;
     private Button btn3Player;
     private Button btn4Player;
@@ -61,9 +68,11 @@ public class MainActivity extends AppCompatActivity {
     private Button btnGo;
     private Button btnYesAnswer;
     private Button btnNoAnswer;
+    private Button btnSubmit;
     private Game game;
     private DynamoDBMapper dynamoDBMapper;
     private ArrayList<QuestionsDO> questions;
+    private ArrayList<String> playersName = new ArrayList<>();
     private File cacheFile;
 
 
@@ -89,24 +98,98 @@ public class MainActivity extends AppCompatActivity {
         if(questions != null){
             switch (numberPlayer){
                 case 2:
-                    game = new Game(2,questions);
+                    game = new Game(2, questions, playersName);
                     break;
                 case 3:
-                    game = new Game(3,questions);
+                    game = new Game(3, questions, playersName);
                     break;
                 case 4:
-                    game = new Game(4,questions);
+                    game = new Game(4, questions, playersName);
                     break;
                 case 5:
-                    game = new Game(5,questions);
+                    game = new Game(5, questions, playersName);
                     break;
                 default:
                     break;
             }
             showGame(game.getNumberOfPlayer());
+
         } else {
             lblWelcome.setText("Error. Check network connection");
         }
+    }
+
+    public void setPlayersNames(final int playersNumber){
+        // show game
+
+        setContentView(R.layout.set_players_name);
+
+        playersName.add("Player 1");
+        playersName.add("Player 2");
+        playersName.add("Player 3");
+        playersName.add("Player 4");
+        playersName.add("Player 5");
+
+        txtPlayer1Name = (EditText) findViewById(R.id.txtPlayer1Name);
+        txtPlayer2Name = (EditText) findViewById(R.id.txtPlayer2Name);
+        txtPlayer3Name = (EditText) findViewById(R.id.txtPlayer3Name);
+        txtPlayer4Name = (EditText) findViewById(R.id.txtPlayer4Name);
+        txtPlayer5Name = (EditText) findViewById(R.id.txtPlayer5Name);
+        btnSubmit = (Button) findViewById(R.id.btnSubmit);
+
+
+        txtPlayer3Name.setVisibility(View.GONE);
+        txtPlayer4Name.setVisibility(View.GONE);
+        txtPlayer5Name.setVisibility(View.GONE);
+        // switch does not working properly. Maybe if statment?
+        switch (playersNumber){
+            case 3:
+                txtPlayer3Name.setVisibility(View.VISIBLE);
+                break;
+            case 4:
+                txtPlayer3Name.setVisibility(View.VISIBLE);
+                txtPlayer4Name.setVisibility(View.VISIBLE);
+                break;
+            case 5:
+                txtPlayer3Name.setVisibility(View.VISIBLE);
+                txtPlayer4Name.setVisibility(View.VISIBLE);
+                txtPlayer5Name.setVisibility(View.VISIBLE);
+                break;
+            default:
+                break;
+        }
+
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String player1 = txtPlayer1Name.getText().toString();
+                String player2 = txtPlayer2Name.getText().toString();
+                String player3 = txtPlayer3Name.getText().toString();
+                String player4 = txtPlayer4Name.getText().toString();
+                String player5 = txtPlayer5Name.getText().toString();
+
+                if (!player1.toString().equals("")){
+                    playersName.set(0,player1);
+                }
+                if (!player2.toString().equals("")){
+                    playersName.set(1,player2);
+                }
+                if (!player3.toString().equals("")){
+                    playersName.set(2,player3);
+                }
+                if (!player4.toString().equals("")){
+                    playersName.set(3,player4);
+                }
+                if (!player5.toString().equals("")){
+                    playersName.set(4,player5);
+                }
+                newGame(playersNumber);
+            }
+        });
+
+
+    //
     }
 
     @Override
@@ -122,11 +205,11 @@ public class MainActivity extends AppCompatActivity {
         lblPlayer3Point = (TextView) findViewById(R.id.lblPlayer3Point);
         lblPlayer4Point = (TextView) findViewById(R.id.lblPlayer4Point);
         lblPlayer5Point = (TextView) findViewById(R.id.lblPlayer5Point);
-        lblPlayer1Point.setText("Player 1 has " + game.getPlayerPoint(1) + " points");
-        lblPlayer2Point.setText("Player 2 has " + game.getPlayerPoint(2) + " points");
-        lblPlayer3Point.setText("Player 3 has " + game.getPlayerPoint(3) + " points");
-        lblPlayer4Point.setText("Player 4 has " + game.getPlayerPoint(4) + " points");
-        lblPlayer5Point.setText("Player 5 has " + game.getPlayerPoint(5) + " points");
+        lblPlayer1Point.setText(game.getPlayerName(1)+ " has " + game.getPlayerPoint(1) + " points");
+        lblPlayer2Point.setText(game.getPlayerName(2)+ " has " + game.getPlayerPoint(2) + " points");
+        lblPlayer3Point.setText(game.getPlayerName(3)+ " has " + game.getPlayerPoint(3) + " points");
+        lblPlayer4Point.setText(game.getPlayerName(4)+ " has " + game.getPlayerPoint(4) + " points");
+        lblPlayer5Point.setText(game.getPlayerName(5)+ " has " + game.getPlayerPoint(5) + " points");
         btnGo = (Button) findViewById(R.id.btnGo);
 
         btnGo.setOnClickListener(new View.OnClickListener() {
@@ -256,25 +339,25 @@ public class MainActivity extends AppCompatActivity {
         btn2Player.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newGame(2);
+                setPlayersNames(2);
             }
         });
         btn3Player.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newGame(3);
+                setPlayersNames(3);
             }
         });
         btn4Player.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newGame(4);
+                setPlayersNames(4);
             }
         });
         btn5Player.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newGame(5);
+                setPlayersNames(5);
             }
         });
 

@@ -18,14 +18,14 @@ public class Game {
 
 
 
-    public Game (int numberOfPlayers, ArrayList<QuestionsDO> questions){
+    public Game (int numberOfPlayers, ArrayList<QuestionsDO> questions, ArrayList<String> playersName){
         this.numberOfPlayer = numberOfPlayers;
         this.whichPlayerHasTurn = 1;
-        player1 = new Player();
-        player2 = new Player();
-        player3 = new Player();
-        player4 = new Player();
-        player5 = new Player();
+        player1 = new Player(playersName.get(0));
+        player2 = new Player(playersName.get(1));
+        player3 = new Player(playersName.get(2));
+        player4 = new Player(playersName.get(3));
+        player5 = new Player(playersName.get(4));
         this.questions = questions;
     }
 
@@ -55,6 +55,22 @@ public class Game {
                 return player5.getPoints();
         }
         return -1;
+    }
+
+    public String getPlayerName(int playerNumber){
+        switch(playerNumber){
+            case 1:
+                return player1.getName();
+            case 2:
+                return player2.getName();
+            case 3:
+                return player3.getName();
+            case 4:
+                return player4.getName();
+            case 5:
+                return player5.getName();
+        }
+        return "";
     }
 
     public String getQuestion(ArrayList<String> listOfUsedQuestionsID){
